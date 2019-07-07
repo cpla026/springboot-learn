@@ -1,0 +1,21 @@
+
+
+参考链接：https://www.cnblogs.com/justuntil/p/8033792.html
+
+一、zookeeper 使用
+1、./zkServer.sh start #启动
+   netstat -tunlp|grep 2181 #查看zookeeper端口
+   ./zkServer.sh stop #停止
+
+二、kafka 的使用：
+1、配置：
+   kafka最为重要三个配置依次为：broker.id、log.dir、zookeeper.connect
+
+
+2、启动：
+   ./bin/kafka-server-start.sh config/server.properties &
+   netstat -tunlp|egrep "(2181|9092)" 监测端口
+
+3、单机连通性测试：
+运行producer：./bin/kafka-console-producer.sh --broker-list 192.168.153.118:9092 --topic test
+运行consumer: ./bin/kafka-console-consumer.sh --zookeeper 192.168.153.118:2181 --topic test --from-beginning

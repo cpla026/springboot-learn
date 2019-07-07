@@ -1,0 +1,26 @@
+server:
+  port: 8091
+
+spring:
+  application:
+    name: kafka-consumer
+
+#kafka configuration
+#指定消息被消费之后自动提交偏移量，以便下次继续消费
+  kafka:
+    consumer:
+      enable-auto-commit: true
+      # 指定默认消费者group id
+      group-id: ron
+      #指定kafka服务器地址
+      #bootstrap-servers: 192.168.1.130:9092,192.168.1.101:9093,192.168.1.101:9094
+      bootstrap-servers: 192.168.25.131:9092
+      #指定从最近地方开始消费(earliest)
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#topic
+kafka:
+  app:
+    topic:
+      foo: test-topic

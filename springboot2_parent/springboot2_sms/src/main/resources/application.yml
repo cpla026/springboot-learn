@@ -1,0 +1,21 @@
+
+server:
+  port: 9009
+spring:
+  application:
+    name: springboot2-sms # 微服务名称
+
+# rabbitmq 配置
+  rabbitmq:
+    host: 192.168.25.133
+    port: 5672
+    username: guest
+    password: guest
+
+# 到阿里大于控制台中找
+aliyun:
+  sms:
+    accessKeyId: yourAccessKeyId
+    accessKeySecret: yourAccessKeySecret
+    template_code: SMS_100000000
+    sign_name: 云通讯

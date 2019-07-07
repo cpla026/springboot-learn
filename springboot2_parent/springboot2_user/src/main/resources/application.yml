@@ -1,0 +1,17 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: user
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/springboot2.0?useSSL=false&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+
+
+mybatis:
+  type-aliases-package: com.coolron.user.domain
+  mapper-locations: classpath:mapping/user/*.xml

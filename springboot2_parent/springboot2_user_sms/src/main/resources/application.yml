@@ -1,0 +1,27 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: user
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/springboot2.0?useSSL=false&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+
+# rabbitmq 配置
+  rabbitmq:
+    host: 192.168.25.133
+    port: 5672
+    username: guest
+    password: guest
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 1
+
+mybatis:
+  type-aliases-package: com.coolron.usersms.domain
+  mapper-locations: classpath:mapping/user/*.xml

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolron.mybatis.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.coolron.mybatis.domain.User">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, username, password, phone, email, name, status, sex
+  </sql>
+
+  <resultMap id="ListResultMap" type="com.coolron.mybatis.domain.UserList">
+    <collection property="list1" ofType="com.coolron.mybatis.domain.User">
+      <id column="a_id" jdbcType="VARCHAR" property="id" />
+      <result column="a_username" jdbcType="VARCHAR" property="username" />
+      <result column="a_password" jdbcType="VARCHAR" property="password" />
+      <result column="a_phone" jdbcType="VARCHAR" property="phone" />
+      <result column="a_email" jdbcType="VARCHAR" property="email" />
+      <result column="a_name" jdbcType="VARCHAR" property="name" />
+      <result column="a_status" jdbcType="VARCHAR" property="status" />
+      <result column="a_sex" jdbcType="VARCHAR" property="sex" />
+    </collection>
+
+    <collection property="list2" ofType="com.coolron.mybatis.domain.User">
+      <id column="b_id" jdbcType="VARCHAR" property="id" />
+      <result column="b_username" jdbcType="VARCHAR" property="username" />
+      <result column="b_password" jdbcType="VARCHAR" property="password" />
+      <result column="b_phone" jdbcType="VARCHAR" property="phone" />
+      <result column="b_email" jdbcType="VARCHAR" property="email" />
+      <result column="b_name" jdbcType="VARCHAR" property="name" />
+      <result column="b_status" jdbcType="VARCHAR" property="status" />
+      <result column="b_sex" jdbcType="VARCHAR" property="sex" />
+    </collection>
+
+  </resultMap>
+
+  <select id="getUserListByStatus" resultMap="ListResultMap">
+    select
+    a.id as 'a_id', a.username as 'a_username',
+    a.password as 'a_password', a.phone as 'a_phone',
+    a.email as 'a_email', a.name as 'a_name', a.status as 'a_status', a.sex as 'a_sex',
+
+    b.id as 'b_id', b.username as 'b_username',
+    b.password as 'b_password', b.phone as 'b_phone',
+    b.email as 'b_email', b.name as 'b_name', b.status as 'b_status', b.sex as 'b_sex'
+
+    FROM tb_user a,tb_user b
+    where a.status = '1'
+    and b.status = '2'
+    and a.sex = b.sex  = '0'
+
+  </select>
+
+
+  <select id="selectByPrimaryKeyPlus" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_user
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_user
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_user
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.coolron.mybatis.domain.User">
+    insert into tb_user (id, username, password, 
+      phone, email, name, 
+      status, sex)
+    values (#{id,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.coolron.mybatis.domain.User">
+    insert into tb_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.coolron.mybatis.domain.User">
+    update tb_user
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.coolron.mybatis.domain.User">
+    update tb_user
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
