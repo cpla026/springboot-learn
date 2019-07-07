@@ -1,0 +1,18 @@
+version: "3.3"
+
+services:
+  redis-server:
+    container_name: redis-server
+    hostname: redis-service
+    build:
+      context: ./image/redis/
+      dockerfile: Dockerfile
+    deploy:
+      replicas: 1
+    ports:
+      - "6379:6379"
+    #configs:
+    #  - source: ./redis/redis.conf
+    #    target: /data/redis/redis.conf
+    volumes:
+      - ./datas/redis/:/data/

@@ -1,0 +1,40 @@
+version: "3.3"
+
+services:
+  redis-server:
+    container_name: redis-server
+    hostname: redis-service
+    build:
+      context: ./image/redis/3.2/
+      dockerfile: Dockerfile
+    deploy:
+      replicas: 1
+    ports:
+      - "6379:6379"
+    #configs:
+    #  - source: ./redis/redis.conf
+    #    target: /data/redis/redis.conf
+    volumes:
+      - ./datas/redis/:/data/
+  edas-provider:
+    container_name: beadwallet-example-service
+    hostname: beadwallet-example-service
+    image: bmd/beadwallet-example-service
+    ports:
+      - "8081:8081"
+      - "18011:18011"
+    #environment:
+      #- JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,address=18000,server=y,suspend=y
+      #- JAVA_OPTS=-Djava.security.egd=file:/dev/./urandom
+  edas-consumer:
+    container_name: beadwallet-example-controller
+    hostname: beadwallet-example-controller
+    image: bmd/beadwallet-example-controller
+    ports:
+      - "8082:8082"
+      - "18012:18012"
+    #links:
+      #- beadwallet-example-service
+    #environment:
+      #- JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,address=18000,server=y,suspend=y
+      #- JAVA_OPTS=-Djava.security.egd=file:/dev/./urandom

@@ -1,0 +1,39 @@
+#构建镜像的基础镜像  非注释行的第一行,即dockerfile 语句从from 开始
+#FROM可以在一个 Dockerfile 中出现多次，如果有需求在一个 Dockerfile 中创建多个镜像
+FROM java:8
+
+
+# author
+MAINTAINER Ron
+# 创建一个可以从本地主机或其他容器挂载的挂载点
+VOLUME /tmp
+
+
+# ADD复制本地主机文件、目录或者远程文件 URLS 从 并且添加到容器指定路径中  同 COPY  COPY不支持URL和压缩包。
+# ① src必须在构建的上下文内，不能使用例如： ADD../somethine/something 这样的命令，因为 docker build 命令首先会将上下文路径和其子目录发送到docker daemon。
+# ② 如果src是一个目录，那么整个目录下的内容将会被拷贝，包括文件系统元数据
+# ③ 如果文件是可识别的压缩包格式，则docker会自动解压。
+ADD SpringBootWithSwagger-1.0.0-SNAPSHOT.jar app.jar
+
+
+#每条RUN指令将在当前镜像基础上执行指定命令，并提交为新的镜像，后续的RUN都在之前RUN提交后的镜像为基础，
+#镜像是分层的，可以通过一个镜像的任何一个历史提交点来创建，类似源码的版本控制
+#RUN bash -c 'touch /app.jar'
+
+
+#告诉 Docker 服务端容器对外映射的本地端口，需要在 docker run 的时候使用-p或者-P选项生效
+EXPOSE 8080
+#EXPOSE 18012
+
+
+# CMD指令用于为执行容器提供默认值
+# 每个Dockerfile只有一个CMD命令，如果指定了多个CMD命令，那么只有最后一条会被执行，如果启动容器的时候指定了运行的命令，则会覆盖掉CMD指定的命令。
+# CMD["executable","param1","param2"] (推荐使用格式)
+#CMD echo "This is a test." | wc -
+
+
+# ENTRYPOINT和CMD指令的目的一样，都是指定Docker容器启动时执行的命令，可多次设置，但只有最后一个有效。ENTRYPOINT不可被重写覆盖
+# 容器启动后执行的命令 并且不可被 docker run 提供的参数覆盖，而CMD是可以被覆盖的。如果需要覆盖，则可以使用docker run --entrypoint选项
+# 每个 Dockerfile 中只能有一个ENTRYPOINT，当指定多个时，只有最后一个生效。
+#ENTRYPOINT ["java","-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=18012","-jar","/app.jar"]
+#ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
