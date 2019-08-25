@@ -24,6 +24,8 @@
     <module>springboot2_parent</module>
     <module>springboot-beetlsql</module>
     <module>springboot-multi-module</module>
+    <module>custom-starter/custom-spring-boot-starter</module>
+    <module>custom-starter/starter-test</module>
   </modules>
 
 </project>
